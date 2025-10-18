@@ -76,4 +76,40 @@ app.group("/eth", (router) => {
     });
 });
 
+app.group("/payments", (router) => {
+    router.post('/create', async(req, res) => {
+        let status = "created";
+        const { price, info, id } = req.body;
+
+        cache[id] = {price, info, id, status};
+
+        res.json({res: "success"});
+    });
+
+    router.post('/get', async(req, res) => {
+        const { id } = req.body;
+
+        if (cache[id]){
+            res.json({res: "success", body: cache[id]});
+        }else {
+            res.json({res: "fail"});
+        }
+    });
+
+    router.post('/complete', async(req, res)=> {
+        const {id} = req.body;
+        let verify = await verifyTransaction(req.body);
+
+        if (verify == "complete"){
+            cache[id] = { ...cache[id], ...req.body, status: verify};
+            res.json({res: "success"});
+        }else if (verify == "created"){
+            res.json({res: "waiting"});
+        }else
+            res.json({res: "fail"});
+    });
+
+});
+
+
 
