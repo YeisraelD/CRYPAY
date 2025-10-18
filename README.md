@@ -8,3 +8,4 @@
 
 ### Features in Development
 - Eth Payments via PayPal
+- all the frontend stuff...
