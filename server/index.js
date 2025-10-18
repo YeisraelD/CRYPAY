@@ -94,11 +94,11 @@ paymentsRouter.post('/complete', async (req, res) => {
     }
 });
 
-// Mount routers
+// Mount routers 
 app.use("/eth", ethRouter);
 app.use("/payments", paymentsRouter);
 
-// Other routes
+// Other routes for supported coins
 app.get('/all', async (req, res) => {
     let dataArr = [];
     await Promise.all(supported.map(async (tick) => {
