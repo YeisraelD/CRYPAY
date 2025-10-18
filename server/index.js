@@ -125,7 +125,21 @@ app.get('/all', async(req, res)=> {
     res.json({all: data});
 });
 
+app.get('/cache', async(req, res)=> {
+    console.log(cache);
+    res.json({cache});
+});
 
+app.post('/search', async (req, res)=> {
+    let searchIds = searchTickers(tickers.data, req.body.term);
+    let data = [];
+    await Promise.all(searchIds.map(async({id: tick})=>{
+        try {
+            let out= await getCoin(tick);
+            data.push(out);
+        } catch{}
+    }));
 
-
+    res.json({all: data.slice(0,20)});
+});
 
