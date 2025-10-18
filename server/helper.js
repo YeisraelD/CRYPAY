@@ -78,4 +78,4 @@ const searchTickers = (source, term) => {
 
 module.exports = {
     searchTickers
-}
+};
