@@ -53,6 +53,27 @@ const getCoin = async (token) => {
 
 };
 
+const supported = ["ethereum", "bitcoin", "tether"];
 
+//group of api end points with /eth
+app.group("/eth", (router) => {
+
+    router.get('/price', async (req, res) => {
+        const price =await getCoin("ethereum");
+        res.json({price});
+    });
+
+    router.post('/balance', async(req, res) => {
+        const price =await getCoin("ethereum");
+        const balance = await getEthBalance(req.body.acct, price.current_price.usd);
+        res.json({balance});
+    });
+
+    router.post('/mulBalance', async(req, res) => {
+        const price =await getCoin("ethereum");
+        const balance = await getEthBalances(req.body.accts, price.current_price.usd);
+        res.json({balance})
+    });
+});
 
 
