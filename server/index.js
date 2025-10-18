@@ -111,5 +111,21 @@ app.group("/payments", (router) => {
 
 });
 
+app.get('/all', async(req, res)=> {
+    let data =[];
+    await Promise.all(supported.map(async (tick) => {
+        try {
+            let out = await getCoin(tick);
+            data.push(out);
+        } catch {
+            // ignore failed fetches
+        }
+    }));
+
+    res.json({all: data});
+});
+
+
+
 
 
