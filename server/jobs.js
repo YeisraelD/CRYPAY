@@ -1,4 +1,4 @@
-const cron = require('node-core');
+const cron = require('core-js');
 const fs = require('fs');
 
 const k = require("./tickers.json");

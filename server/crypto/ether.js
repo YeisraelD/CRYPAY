@@ -1,7 +1,14 @@
-const Web3 = require("web3")
-const test = true
-const infura_key = test ? "https://rinkeby.infura.io/v3/d22e7e2e66a34892a9535b08658dc52e" : "https://mainnet.infura.io/v3/d22e7e2e66a34892a9535b08658dc52e"
-const web3 = new Web3(new Web3.providers.HttpProvider(infura_key))
+// For Web3 v2+
+const Web3 = require("web3").default;
+
+const test = true;
+const infura_key = test
+  ? "https://rinkeby.infura.io/v3/d22e7e2e66a34892a9535b08658dc52e"
+  : "https://mainnet.infura.io/v3/d22e7e2e66a34892a9535b08658dc52e";
+
+const web3 = new Web3(infura_key);
+
+module.exports = web3;
 
 const getEthBalance = async (acct, price) => {
     try {
