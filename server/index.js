@@ -143,3 +143,11 @@ app.post('/search', async (req, res)=> {
     res.json({all: data.slice(0,20)});
 });
 
+app.post('/feedback', async(req, res) => {
+    cache.feedback[uuid.v4()] = req.body.feedback;
+    res.sendStatus(200);
+});
+
+module.exports={
+    getCoin
+};
