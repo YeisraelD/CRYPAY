@@ -1,8 +1,10 @@
 # CRYPAY
 ## Connecting Cryptocurrencies to the Real World
+
 ### Features
--- Eth Payments on Ebay
--- Search Crypto Prices
--- Share to friends
+- Eth Payments on Ebay
+- Search Crypto Prices
+- Share to friends
+
 ### Features in Development
--- Eth Payments via PayPal
+- Eth Payments via PayPal
