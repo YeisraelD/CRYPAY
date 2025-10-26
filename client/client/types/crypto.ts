@@ -22,7 +22,7 @@ export interface Payment{
     txHash?: string;
 }
 
-export interface Transacton{
+export interface Transaction{
     id: string;
     type: 'payment' |'received' | 'conversion';
     amount : number;
@@ -33,7 +33,7 @@ export interface Transacton{
     txHash?: string
 }
 
-export interface wallet{
+export interface Wallet{
     id: string;
     currency: string;
     balance: number;
