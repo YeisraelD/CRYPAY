@@ -132,6 +132,10 @@ app.post('/feedback', async (req, res) => {
     res.sendStatus(200);
 });
 
+app.get('/health', (req, res) => {
+    res.json({ status: 'up', timestamp: new Date().toISOString() });
+});
+
 const port = process.env.PORT || 3001
 
 app.listen(port, async() => {
