@@ -141,6 +141,15 @@ app.get('/health', (req, res) => {
     res.json({ status: 'up', timestamp: new Date().toISOString() });
 });
 
+// Final Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ 
+        error: 'Internal Server Error', 
+        message: err.message 
+    });
+});
+
 const port = process.env.PORT || 3001
 
 app.listen(port, async() => {
