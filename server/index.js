@@ -8,6 +8,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
 const CoinGecko = require('coingecko-api');
 const crypto = require('./crypto/ether.js');
 const { getEthBalance, getEthBalances, verifyTransaction } = crypto;

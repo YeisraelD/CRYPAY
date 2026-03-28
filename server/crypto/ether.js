@@ -36,7 +36,7 @@ const verifyTransaction = async (data) => {
     let res = await web3.eth.getTransactionReceipt(data.transactionHash)
     if (res){
         let status ="complete"
-        let checkkeys = ["blockHash", "blockNumcer", "from", "gasUsed", "to", "transactionHash" ]
+        let checkkeys = ["blockHash", "blockNumber", "from", "gasUsed", "to", "transactionHash" ]
         for (key in checkkeys) {
             if (data[key] != res[key]) {
                 status = "fail"
