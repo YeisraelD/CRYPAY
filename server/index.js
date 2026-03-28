@@ -141,6 +141,11 @@ app.get('/health', (req, res) => {
     res.json({ status: 'up', timestamp: new Date().toISOString() });
 });
 
+const { version } = require('./package.json');
+app.get('/version', (req, res) => {
+    res.json({ version });
+});
+
 // Final Error Handling Middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
