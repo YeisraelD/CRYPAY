@@ -1,16 +1,9 @@
-# CRYPAY
-## Connecting Cryptocurrencies to the Real World
+CRYPAY is a cryptocurrency payment gateway and development kit designed to simplify digital asset integration for real-world applications.
 
-### Features
-- Eth Payments on Ebay
-- Search Crypto Prices
-- Share to friends
-
-### Quick Start
-1. `cd server`
-2. `npm install`
-3. `cp .env.example .env` (Configure your environment)
-4. `npm run dev`
+### Core Payment Capabilities
+- **Eth-to-eBay Bridge**: Facilitating Ethereum payments for conventional platforms.
+- **Smart Portfolio Management**: Real-time balance checks across multiple accounts.
+- **Dynamic Pricing Engine**: Automated market data synchronization via CoinGecko.
 
 ### API Endpoints
 - `GET /health` - Server status check
@@ -20,8 +13,33 @@
 - `POST /search` - Search for crypto tickers
 - `POST /feedback` - Submit user feedback
 
-### Features in Development
-- Eth Payments via PayPal
-- Frontend integration
+---
+
+## Developer Stack
+
+### Backend Environment
+- **Node.js & Express**: High-performance API routing.
+- **Web3.js**: Direct blockchain interfacing.
+- **CoinGecko SDK**: Reliable market intelligence.
+
+### Client Environment
+- **TypeScript**: Ensuring type-safe frontend integrations.
+
+---
+
+1. **Service Layer Setup**
+   ```bash
+   cd server
+   npm install
+   cp .env.example .env # Configure your environment secrets
+   npm run dev
+   ```
+
+2. **Integration Layer**
+   - Reference the `client/` directory for type-safe API consumers.
+
+---
+
+For technical implementation details, security protocols, and data models, please refer to our **[Architecture Guide](file:///c:/Users/yeisr/OneDrive/Desktop/cpay/CRYPAY/docs/ARCHITECTURE.md)**.
 
 ---
