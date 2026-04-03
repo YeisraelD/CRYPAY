@@ -38,8 +38,4 @@ CRYPAY is a cryptocurrency payment gateway and development kit designed to simpl
 2. **Integration Layer**
    - Reference the `client/` directory for type-safe API consumers.
 
----
-
 For technical implementation details, security protocols, and data models, please refer to our **[Architecture Guide](file:///c:/Users/yeisr/OneDrive/Desktop/cpay/CRYPAY/docs/ARCHITECTURE.md)**.
-
----
