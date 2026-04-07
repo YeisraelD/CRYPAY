@@ -28,6 +28,7 @@ const { getEthBalance, getEthBalances, verifyTransaction } = crypto;
 
 const jobs = require('./jobs.js');
 const helpers = require('./helper.js');
+const validate = require('./middleware/validator');
 const { searchTickers } = helpers;
 
 const data = require("./tickers.json"); // coin info
@@ -67,26 +68,26 @@ ethRouter.get('/price', async (req, res) => {
     res.json({ price });
 });
 
-ethRouter.post('/balance', async (req, res) => {
+ethRouter.post('/balance', validate(['acct']), async (req, res) => {
     const price = await getCoin("ethereum");
     const balance = await getEthBalance(req.body.acct, price.current_price.usd);
     res.json({ balance });
 });
 
-ethRouter.post('/mulBalance', async (req, res) => {
+ethRouter.post('/mulBalance', validate(['accts']), async (req, res) => {
     const price = await getCoin("ethereum");
     const balance = await getEthBalances(req.body.accts, price.current_price.usd);
     res.json({ balance });
 });
 
 // Payments routes
-paymentsRouter.post('/create', async (req, res) => {
+paymentsRouter.post('/create', validate(['price', 'info', 'id']), async (req, res) => {
     const { price, info, id } = req.body;
     cache[id] = { price, info, id, status: "created" };
     res.json({ res: "success" });
 });
 
-paymentsRouter.post('/get', async (req, res) => {
+paymentsRouter.post('/get', validate(['id']), async (req, res) => {
     const { id } = req.body;
     if (cache[id]) {
         res.json({ res: "success", body: cache[id] });
@@ -95,7 +96,7 @@ paymentsRouter.post('/get', async (req, res) => {
     }
 });
 
-paymentsRouter.post('/complete', async (req, res) => {
+paymentsRouter.post('/complete', validate(['id']), async (req, res) => {
     const { id } = req.body;
     let verify = await verifyTransaction(req.body);
     if (verify == "complete") {
@@ -129,7 +130,7 @@ app.get('/cache', async (req, res) => {
     res.json({ cache });
 });
 
-app.post('/search', async (req, res) => {
+app.post('/search', validate(['term']), async (req, res) => {
     let searchIds = searchTickers(tickers.data, req.body.term);
     let dataArr = [];
     await Promise.all(searchIds.map(async ({ id: tick }) => {
@@ -141,7 +142,7 @@ app.post('/search', async (req, res) => {
     res.json({ all: dataArr.slice(0, 20) });
 });
 
-app.post('/feedback', async (req, res) => {
+app.post('/feedback', validate(['feedback']), async (req, res) => {
     cache.feedback[uuidv4()] = req.body.feedback; // fixed uuid usage
     res.sendStatus(200);
 });
