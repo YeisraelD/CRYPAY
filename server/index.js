@@ -23,6 +23,7 @@ app.use((req, res, next) => {
 
 const CoinGecko = require('coingecko-api');
 const crypto = require('./crypto/ether.js');
+const AppError = require('./utils/appError');
 const { getEthBalance, getEthBalances, verifyTransaction } = crypto;
 
 const jobs = require('./jobs.js');
@@ -154,13 +155,40 @@ app.get('/version', (req, res) => {
     res.json({ version });
 });
 
+// Handle 404 - Keep this after all other routes
+app.all('*', (req, res, next) => {
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
 // Final Error Handling Middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ 
-        error: 'Internal Server Error', 
-        message: err.message 
-    });
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || 'error';
+
+    if (process.env.NODE_ENV === 'development') {
+        res.status(err.statusCode).json({
+            status: err.status,
+            error: err,
+            message: err.message,
+            stack: err.stack
+        });
+    } else {
+        // Operational, trusted error: send message to client
+        if (err.isOperational) {
+            res.status(err.statusCode).json({
+                status: err.status,
+                message: err.message
+            });
+        } 
+        // Programming or other unknown error: don't leak error details
+        else {
+            console.error('ERROR 💥', err);
+            res.status(500).json({
+                status: 'error',
+                message: 'Something went very wrong!'
+            });
+        }
+    }
 });
 
 const port = process.env.PORT || 3001
