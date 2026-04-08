@@ -120,7 +120,7 @@ app.get('/all', async (req, res) => {
         try {
             let out = await getCoin(tick);
             dataArr.push(out);
-        } catch {}
+        } catch { }
     }));
     res.json({ all: dataArr });
 });
@@ -137,7 +137,7 @@ app.post('/search', validate(['term']), async (req, res) => {
         try {
             let out = await getCoin(tick);
             dataArr.push(out);
-        } catch {}
+        } catch { }
     }));
     res.json({ all: dataArr.slice(0, 20) });
 });
@@ -180,7 +180,7 @@ app.use((err, req, res, next) => {
                 status: err.status,
                 message: err.message
             });
-        } 
+        }
         // Programming or other unknown error: don't leak error details
         else {
             console.error('ERROR 💥', err);
@@ -194,8 +194,8 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3001
 
-app.listen(port, async() => {
+app.listen(port, async () => {
     console.log(`app listening on port ${port}`)
-}) 
+})
 
 module.exports = { getCoin };
