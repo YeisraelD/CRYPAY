@@ -99,12 +99,24 @@ ethRouter.post('/mulBalance', validate(['accts']), async (req, res) => {
 });
 
 // Payments routes
+/**
+ * @route POST /payments/create
+ * @param {number} price - Amount to be paid
+ * @param {object} info - Additional payment information
+ * @param {string} id - Unique payment ID
+ * @desc Initialize a new payment request
+ */
 paymentsRouter.post('/create', validate(['price', 'info', 'id']), async (req, res) => {
     const { price, info, id } = req.body;
     cache[id] = { price, info, id, status: "created" };
     res.json({ res: "success" });
 });
 
+/**
+ * @route POST /payments/get
+ * @param {string} id - Unique payment ID
+ * @desc Retrieve payment details by ID
+ */
 paymentsRouter.post('/get', validate(['id']), async (req, res) => {
     const { id } = req.body;
     if (cache[id]) {
@@ -114,6 +126,11 @@ paymentsRouter.post('/get', validate(['id']), async (req, res) => {
     }
 });
 
+/**
+ * @route POST /payments/complete
+ * @param {string} id - Unique payment ID
+ * @desc Verify and complete a payment transaction
+ */
 paymentsRouter.post('/complete', validate(['id']), async (req, res) => {
     const { id } = req.body;
     let verify = await verifyTransaction(req.body);
