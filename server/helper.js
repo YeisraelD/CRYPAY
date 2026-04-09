@@ -1,3 +1,12 @@
+/**
+ * Recursive binary search implementation
+ * @param {any[]} source - The sorted array to search
+ * @param {Function} compatFunc - Comparison function
+ * @param {number} l - Left boundary
+ * @param {number} r - Right boundary
+ * @param {string} term - Search term
+ * @returns {any[]} - Array of matching results
+ */
 const search = (source, compatFunc, l, r, term) => {
     let out = []
     let mid = Math.floor((r + l) / 2);
@@ -19,6 +28,14 @@ const search = (source, compatFunc, l, r, term) => {
     return out
 }
 
+/**
+ * Expand search results around a found index for multiple matches
+ * @param {any[]} source - The data source
+ * @param {Function} compatFunc - Comparison function
+ * @param {number} mid - Initial found index
+ * @param {string} term - Search term
+ * @returns {any[]} - Array of matching results
+ */
 const addOut = (source, compatFunc, mid, term) => {
     let out = []
     out.push(source[mid])
@@ -42,6 +59,12 @@ const addOut = (source, compatFunc, mid, term) => {
     return out
 }
 
+/**
+ * Comparison function for crypto ticker search
+ * @param {string} term - Search keyword
+ * @param {object} obj - Ticker object to compare against
+ * @returns {number} - 0 for match, -1 for left recursion, 1 for right recursion
+ */
 const baseCompare = (term, obj) => {
     let curState = 0
     term = term.toLowerCase()
@@ -65,17 +88,16 @@ const baseCompare = (term, obj) => {
     return curState;
 }
 
+/**
+ * Public search interface for crypto tickers
+ * @param {object[]} source - Array of ticker objects
+ * @param {string} term - Search keyword
+ * @returns {object[]} - Matching ticker objects
+ */
 const searchTickers = (source, term) => {
     return search(source, baseCompare, 0, source.length - 1, term)
 }
 
-// let data = require("./tickers.json")
-// let tickers = { data }
-// let out = searchTickers(tickers.data, "bitc")
-// // let out = baseCompare("tethe", { id: 'fam-token', symbol: 'fam', name: 'FAM Token' })
-// console.log(out)
-
-
 module.exports = {
     searchTickers
-};
+};
