@@ -211,11 +211,15 @@ app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-// Final Error Handling Middleware
+/**
+ * Global Error Handling Middleware
+ * Handles both operational errors (via AppError) and programming errors.
+ */
 app.use((err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
+    // Detailed error responses for Development environment
     if (process.env.NODE_ENV === 'development') {
         res.status(err.statusCode).json({
             status: err.status,
@@ -224,15 +228,16 @@ app.use((err, req, res, next) => {
             stack: err.stack
         });
     } else {
-        // Operational, trusted error: send message to client
+        // Production environment handling
         if (err.isOperational) {
+            // Operational, trusted error: send message to client
             res.status(err.statusCode).json({
                 status: err.status,
                 message: err.message
             });
         }
-        // Programming or other unknown error: don't leak error details
         else {
+            // Programming or other unknown error: don't leak details 
             console.error('ERROR 💥', err);
             res.status(500).json({
                 status: 'error',
