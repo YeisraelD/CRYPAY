@@ -182,8 +182,16 @@ app.post('/feedback', validate(['feedback']), async (req, res) => {
     res.sendStatus(200);
 });
 
+/**
+ * @route GET /health
+ * @desc API Health Check with system uptime
+ */
 app.get('/health', (req, res) => {
-    res.json({ status: 'up', timestamp: new Date().toISOString() });
+    res.json({ 
+        status: 'up', 
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString() 
+    });
 });
 
 /**
