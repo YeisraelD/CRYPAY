@@ -10,6 +10,12 @@ const web3 = new Web3(infura_key);
 
 module.exports = web3;
 
+/**
+ * Get current balance of an Ethereum account converted to USD
+ * @param {string} acct - Ethereum address
+ * @param {number} price - Current ETH price in USD
+ * @returns {number} - Balance in USD
+ */
 const getEthBalance = async (acct, price) => {
     try {
         let result = await web3.eth.getBalance(acct)
@@ -20,6 +26,12 @@ const getEthBalance = async (acct, price) => {
     }
 }
 
+/**
+ * Get balances for multiple Ethereum accounts converted to USD
+ * @param {string[]} accts - Array of Ethereum addresses
+ * @param {number} price - Current ETH price in USD
+ * @returns {number[]} - Array of balances in USD
+ */
 const getEthBalances = async (accts, price) => {
     try {
         return await Promise.all(accts.map(async (acct) => {
@@ -32,6 +44,11 @@ const getEthBalances = async (accts, price) => {
     }
 }
 
+/**
+ * Verify a transaction on the blockchain
+ * @param {object} data - Transaction data from client
+ * @returns {string|null} - 'complete', 'fail', or null if not found
+ */
 const verifyTransaction = async (data) => {
     let res = await web3.eth.getTransactionReceipt(data.transactionHash)
     if (res){
