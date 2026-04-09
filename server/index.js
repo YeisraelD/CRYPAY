@@ -1,26 +1,31 @@
+// Core Dependencies
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { v4: uuidv4 } = require('uuid'); // fixed uuid import
+const { v4: uuidv4 } = require('uuid'); 
 const cors = require('cors');
 
 const app = express();
+
+// Global Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
+// Request Logging Middleware
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
     next();
 });
 
-// Basic Security Headers
+// Security Hardening: Basic Protective Headers
 app.use((req, res, next) => {
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('X-Content-Type-Options', 'nosniff'); // Prevent MIME-sniffing
+    res.setHeader('X-Frame-Options', 'DENY');           // Prevent Clickjacking
+    res.setHeader('X-XSS-Protection', '1; mode=block'); // Basic XSS Filter
     next();
 });
 
+// Import Project Modules
 const CoinGecko = require('coingecko-api');
 const crypto = require('./crypto/ether.js');
 const AppError = require('./utils/appError');
