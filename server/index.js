@@ -19,9 +19,11 @@ app.use((req, res, next) => {
 
 // Security Hardening: Basic Protective Headers
 app.use((req, res, next) => {
-    res.setHeader('X-Content-Type-Options', 'nosniff'); // Prevent MIME-sniffing
-    res.setHeader('X-Frame-Options', 'DENY');           // Prevent Clickjacking
-    res.setHeader('X-XSS-Protection', '1; mode=block'); // Basic XSS Filter
+    res.setHeader('X-Content-Type-Options', 'nosniff');      // Prevent MIME-sniffing
+    res.setHeader('X-Frame-Options', 'DENY');                // Prevent Clickjacking
+    res.setHeader('X-XSS-Protection', '1; mode=block');      // Basic XSS Filter
+    res.setHeader('Referrer-Policy', 'same-origin');         // Control Referrer info
+    res.setHeader('X-Permitted-Cross-Domain-Policies', 'none'); // Restrict cross-domain data 
     next();
 });
 
