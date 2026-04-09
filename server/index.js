@@ -135,14 +135,20 @@ paymentsRouter.post('/get', validate(['id']), async (req, res) => {
  */
 paymentsRouter.post('/complete', validate(['id']), async (req, res) => {
     const { id } = req.body;
+    
+    // Check if transaction is verified on-chain
     let verify = await verifyTransaction(req.body);
-    if (verify == "complete") {
-        cache[id] = { ...cache[id], ...req.body, status: verify };
-        res.json({ res: "success" });
-    } else if (verify == "created") {
-        res.json({ res: "waiting" });
+    
+    if (verify === "complete") {
+        cache[id] = { ...cache[id], ...req.body, status: "COMPLETED" };
+        res.json({ res: "success", status: "COMPLETED" });
+    } else if (verify === "pending" || verify === null) {
+        // null means receipt not found yet, transaction might be pending
+        cache[id].status = "PENDING";
+        res.json({ res: "waiting", status: "PENDING" });
     } else {
-        res.json({ res: "fail" });
+        cache[id].status = "FAILED";
+        res.json({ res: "fail", status: "FAILED" });
     }
 });
 
