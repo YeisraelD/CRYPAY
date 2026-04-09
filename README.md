@@ -6,6 +6,9 @@
 
 **CRYPAY** is a robust, lightweight cryptocurrency payment gateway and dashboard API built with Node.js and Express. It provides real-time tracking of crypto prices, balance verification, and a streamlined workflow for creating and verifying payments across multiple blockchains.
 
+---
+
+## Features
 
 - **Real-time Market Data**: Instant access to live prices for Ethereum, Bitcoin, Tether, and thousands of other assets via CoinGecko integration.
 - **On-Chain Balance Checking**: Built-in support for fetching Ethereum balances for single or multiple addresses.
@@ -19,16 +22,26 @@
   - Health checks and versioning endpoints.
   - Basic security hardening headers included.
 
+---
+
+## Tech Stack
+
 - **Backend**: [Node.js](https://nodejs.org/) / [Express](https://expressjs.com/)
 - **Blockhain Support**: [Web3.js](https://web3js.org/)
 - **Market Data**: [CoinGecko API](https://www.coingecko.com/en/api)
 - **Utilities**: Axios, UUID, Body-Parser, CORS
 
+---
+
+## Installation & Setup
 
 ### Prerequisites
 - Node.js (v16+)
 - npm or yarn
 
+---
+
+## API Reference
 
 ### Ethereum
 - `GET /eth/price` - Get the current price of ETH.
