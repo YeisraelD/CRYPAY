@@ -186,9 +186,16 @@ app.get('/health', (req, res) => {
     res.json({ status: 'up', timestamp: new Date().toISOString() });
 });
 
+/**
+ * @route GET /version
+ * @desc Get the current application version and environment
+ */
 const { version } = require('./package.json');
 app.get('/version', (req, res) => {
-    res.json({ version });
+    res.json({ 
+        version,
+        env: process.env.NODE_ENV || 'development'
+    });
 });
 
 // Handle 404 - Keep this after all other routes
