@@ -67,18 +67,31 @@ const supported = ["ethereum", "bitcoin", "tether"];
 const ethRouter = express.Router();
 const paymentsRouter = express.Router();
 
-// ETH routes
+/**
+ * @route GET /eth/price
+ * @desc Get current Ethereum price in USD 
+ */
 ethRouter.get('/price', async (req, res) => {
     const price = await getCoin("ethereum");
     res.json({ price });
 });
 
+/**
+ * @route POST /eth/balance
+ * @param {string} acct - Ethereum address
+ * @desc Get balance for a single address
+ */
 ethRouter.post('/balance', validate(['acct']), async (req, res) => {
     const price = await getCoin("ethereum");
     const balance = await getEthBalance(req.body.acct, price.current_price.usd);
     res.json({ balance });
 });
 
+/**
+ * @route POST /eth/mulBalance
+ * @param {string[]} accts - Array of Ethereum addresses
+ * @desc Get balances for multiple addresses
+ */
 ethRouter.post('/mulBalance', validate(['accts']), async (req, res) => {
     const price = await getCoin("ethereum");
     const balance = await getEthBalances(req.body.accts, price.current_price.usd);
