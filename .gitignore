@@ -1,15 +1,15 @@
-# Environment & Secrets (Crucial)
+
 .env
 .env.example
 .env.local
 .env.*.local
 
-# Database Data (Avoid committing your local DB)
+
 /data
 /db
 .mongodb
 
-# Server dependencies (Recursive)
+
 node_modules/
 dist/
 build/
