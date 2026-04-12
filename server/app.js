@@ -200,9 +200,10 @@ app.get('/version', (req, res) => {
     });
 });
 
-app.all(':path*', (req, res, next) => {
+app.use((req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
 
 // Global Error Handler
 app.use((err, req, res, next) => {
