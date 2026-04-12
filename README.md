@@ -33,14 +33,6 @@
 
 ---
 
-## Installation & Setup
-
-### Prerequisites
-- Node.js (v16+)
-- npm or yarn
-
----
-
 ## API Reference
 
 ### Ethereum
