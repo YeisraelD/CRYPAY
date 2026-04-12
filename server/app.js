@@ -137,9 +137,22 @@ paymentsRouter.post('/complete', validate(['id']), async (req, res) => {
         );
 
         res.json({ res: result, status: status });
+
+        // 🔥 FIRE THE WEBHOOK
+        if (status === "COMPLETED" && updatedPayment.webhookUrl) {
+            sendWebhook(updatedPayment.webhookUrl, {
+                paymentId: id,
+                status: "COMPLETED",
+                txHash: updatedPayment.txHash,
+                info: updatedPayment.info
+            });
+        }
+
+        res.json({ res: result, status: status });
     } catch (err) {
         res.status(500).json({ res: "error", message: err.message });
     }
+
 });
 
 app.use("/eth", ethRouter);
@@ -235,3 +248,4 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+
