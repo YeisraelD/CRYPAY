@@ -138,7 +138,7 @@ paymentsRouter.post('/complete', validate(['id']), async (req, res) => {
 
         res.json({ res: result, status: status });
 
-        // 🔥 FIRE THE WEBHOOK
+
         if (status === "COMPLETED" && updatedPayment.webhookUrl) {
             sendWebhook(updatedPayment.webhookUrl, {
                 paymentId: id,
