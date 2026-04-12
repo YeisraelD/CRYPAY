@@ -1,7 +1,7 @@
 // Core Dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
-const { v4: uuidv4 } = require('uuid'); 
+const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 
 // Import Models
@@ -117,7 +117,7 @@ paymentsRouter.post('/get', validate(['id']), async (req, res) => {
 paymentsRouter.post('/complete', validate(['id']), async (req, res) => {
     const { id } = req.body;
     let verify = await verifyTransaction(req.body);
-    
+
     try {
         let status = "FAILED";
         let result = "fail";
@@ -185,16 +185,16 @@ app.post('/feedback', validate(['feedback']), async (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'up', 
+    res.json({
+        status: 'up',
         uptime: process.uptime(),
-        timestamp: new Date().toISOString() 
+        timestamp: new Date().toISOString()
     });
 });
 
 const { version } = require('./package.json');
 app.get('/version', (req, res) => {
-    res.json({ 
+    res.json({
         version,
         env: process.env.NODE_ENV || 'development'
     });

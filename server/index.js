@@ -1,23 +1,18 @@
-/**
- * CRYPAY Backend - Main Entry Point
- * Separates server startup from application logic for better testability.
- */
+require('dotenv').config();
+const mongoose = require('mongoose');
 const app = require('./app');
 
-// Configure Environment Variables
-const port = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
+const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/crypay';
 
-/**
- * Start the Express server
- */
-const server = app.listen(port, () => {
-    console.log(`
-🚀 CRYPAY API is running!
-📡 Port: ${port}
-🌍 Environment: ${process.env.NODE_ENV || 'development'}
-🕒 Start Time: ${new Date().toISOString()}
-    `);
-});
-
-// Implementation of graceful shutdown could be added here
-module.exports = server;
+mongoose.connect(DB_URI)
+    .then(() => {
+        console.log(' Connected to MongoDB');
+        app.listen(PORT, () => {
+            console.log(` Server running on port ${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.error('Database connection error:', err.message);
+        process.exit(1);
+    });
